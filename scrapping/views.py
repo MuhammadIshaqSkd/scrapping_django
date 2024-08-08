@@ -61,8 +61,11 @@ class Dashboard( LoginRequiredMixin,View):
             driver.execute_script("arguments[0].scrollIntoView(true);", element)
 
         def get_ad_details(url, click_limit):
-            # Set up Selenium
             options = Options()
+            # Set up Selenium
+            options.add_argument('--no-sandbox')
+            options.add_argument('--headless')
+            options.add_argument('--disable-dev-shm-usage')
             options.add_argument("--start-maximized")
             service = Service('chromedriver-win64/chromedriver.exe')  # Change this to your chromedriver path
             driver = webdriver.Chrome(service=service, options=options)

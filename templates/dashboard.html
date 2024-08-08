@@ -63,11 +63,40 @@ button:hover {
     background-color: #45a049;
 }
 
+.loader-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+
     </style>
 </head>
 <body>
     <div class="login-container">
-        <form method="POST" action="/dashboard">
+        <form id="scrapingForm" method="POST" action="/dashboard">
             {% csrf_token %}
             <h2>Form For Scrapping Data</h2>
             <div class="input-group">
@@ -76,10 +105,26 @@ button:hover {
             </div>
             <div class="input-group">
                 <label for="password">Limit</label>
-                <input type="number" name="limit" id="password" required>
+                <input type="number" name="limit" id="limit" required>
             </div>
             <button type="submit">Submit</button>
         </form>
     </div>
+    <div id="loader-container" class="loader-container" style="display:none;">
+        <div class="loader"></div>
+    </div>
+
+<script>
+    document.getElementById('scrapingForm').addEventListener('submit', function(event) {
+        document.getElementById('loader-container').style.display = 'flex';
+    });
+    
+    window.addEventListener('load', function() {
+        document.getElementById('loader-container').style.display = 'none';
+    });
+</script>
+
 </body>
+
+
 </html>
